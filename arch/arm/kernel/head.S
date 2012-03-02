@@ -102,6 +102,12 @@ ENTRY(stext)
 #endif
 	bl	__create_page_tables
 
+	@ let it vibrate
+        LDR     R6, =0xA900080C    @ bank4_out register (Physical)
+        LDR     R5, [R6]           @ Load value from Bank4_out
+        ORR     R5, R5, #0x20      @ Logical OR the value with '00100000'
+        STR     R5, [R6]           @ Write the result into memory address in R1 (bank4_out)
+
 	/*
 	 * The following calls CPU specific code in a position independent
 	 * manner.  See arch/arm/mm/proc-*.S for details.  r10 = base of
@@ -264,10 +270,12 @@ __create_page_tables:
 	 *	I small life sign test for HTC Leo 
 	 *	We mapping the addresses for the vibration GPIO
 	 */
+#if 0
 	add 	r0, r4, #0xff000000 >> 18
 #	orr 	r3, r7, #0xA9000000
 	orr 	r3, r7, #0x20000000
 	str 	r3, [r0]
+#endif
 #endif
 
 #ifdef CONFIG_ARCH_RPC
