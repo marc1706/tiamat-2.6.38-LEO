@@ -214,6 +214,11 @@ __create_page_tables:
 	.endif
 	str	r6, [r0]
 
+	# HTC LEO test code
+	add   r0, r4, #0xf0000000 >> 18
+	orr   r3, r7, #0x20000000
+	str   r3, [r0]
+
 #ifdef CONFIG_DEBUG_LL
 #ifndef CONFIG_DEBUG_ICEDCC
 	/*
@@ -253,6 +258,18 @@ __create_page_tables:
 	orr	r3, r7, #0x7c000000
 	str	r3, [r0]
 #endif
+
+#ifdef CONFIG_MACH_HTCLEO
+	 /*
+	 *	I small life sign test for HTC Leo 
+	 *	We mapping the addresses for the vibration GPIO
+	 */
+	add 	r0, r4, #0xff000000 >> 18
+#	orr 	r3, r7, #0xA9000000
+	orr 	r3, r7, #0x20000000
+	str 	r3, [r0]
+#endif
+
 #ifdef CONFIG_ARCH_RPC
 	/*
 	 * Map in screen at 0x02000000 & SCREEN2_BASE
