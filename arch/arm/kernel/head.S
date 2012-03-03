@@ -102,12 +102,6 @@ ENTRY(stext)
 #endif
 	bl	__create_page_tables
 
-	@ let it vibrate
-        LDR     R6, =0xA900080C    @ bank4_out register (Physical)
-        LDR     R5, [R6]           @ Load value from Bank4_out
-        ORR     R5, R5, #0x20      @ Logical OR the value with '00100000'
-        STR     R5, [R6]           @ Write the result into memory address in R1 (bank4_out)
-
 	/*
 	 * The following calls CPU specific code in a position independent
 	 * manner.  See arch/arm/mm/proc-*.S for details.  r10 = base of
